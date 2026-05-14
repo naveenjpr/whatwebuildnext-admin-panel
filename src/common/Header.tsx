@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from "react"
 import { IoClose, IoReorderThree } from "react-icons/io5"
 import { Link, useNavigate } from "react-router-dom"
+import { supabase } from "../../utils/supabase";
+import { useDispatch } from "react-redux"
+import { logOut } from "../redux/adminslice"
 
 export default function Header({ onToggleSidebar, isSidebarOpen }: { onToggleSidebar: () => void, isSidebarOpen: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement | null>(null)
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     function onDown(event: MouseEvent) {
@@ -27,8 +31,13 @@ export default function Header({ onToggleSidebar, isSidebarOpen }: { onToggleSid
     }
   }, [])
 
-  function onSignOut() {
+  async function onSignOut() {
     setMenuOpen(false)
+    const { error } = await supabase.auth.signOut()
+    if (error) {
+      console.error("Error signing out:", error.message)
+    }
+    dispatch(logOut()) // Clear Redux and Cookies
     navigate("/login")
   }
 

@@ -1,10 +1,21 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+import { useNavigate, Outlet } from "react-router-dom"
 import Header from "./common/Header"
 import Sidebar from "./common/Sidebar"
-import { Outlet } from "react-router"
 
 export default function RootLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const navigate = useNavigate();
+  const adminDetails = useSelector((state: any) => state.loginStore.adminDetails);
+
+  useEffect(() => {
+    if (!adminDetails) {
+      navigate("/login");
+    }
+  }, [adminDetails, navigate]);
+
+  if (!adminDetails) return null; // Prevent rendering anything if not logged in
 
   return (
     <div className="min-h-svh flex flex-col bg-[#0b1220] text-slate-200">
