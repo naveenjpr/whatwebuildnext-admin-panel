@@ -84,7 +84,7 @@ export default function Viewcategories() {
               key={index}
               className="rounded-xl bg-[#08122b] border border-white/10 px-4 py-3 flex items-center justify-between gap-3"
             >
-              <span className="text-white text-[34px] leading-none"><span> {index + 1}</span> {row.cat_name}</span>
+              <span className="text-white md:text-[25px] text-[15px] leading-none"><span> {index + 1}</span> {row.cat_name}</span>
 
               <div className="flex items-center gap-2">
                 <button
