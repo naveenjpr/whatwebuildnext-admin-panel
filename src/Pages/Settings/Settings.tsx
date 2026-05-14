@@ -2,7 +2,7 @@ export default function Settings() {
   return (
     <div className="max-w-4xl space-y-6">
       <div>
-        <h1 className="text-white text-2xl font-semibold tracking-tight">Settings</h1>
+        <h1 className="text-white/55 text-2xl font-semibold">Settings</h1>
         <p className="text-white/55 mt-1">Control notifications, security and preferences.</p>
       </div>
 

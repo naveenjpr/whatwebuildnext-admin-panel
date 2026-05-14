@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 
+const adminCookie = Cookies.get("admin");
+
 export let loginSlice = createSlice({
     name: "login",
     initialState: {
-        adminDetails: Cookies.get("admin") ? JSON.parse(Cookies.get("admin")) : null
+        adminDetails: adminCookie ? JSON.parse(adminCookie) : null
     },
     reducers: {
         saveLoginDetails: (state, reqData) => {

@@ -68,7 +68,7 @@ export default function Login() {
             />
             <span
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-[38px] z-50 cursor-pointer text-grey-500 hover:text-gray-300 transition-colors p-1"
+              className="absolute right-4 top-[38px] z-50 cursor-pointer text-gray-500 hover:text-gray-300 transition-colors p-1"
             >
               {showPassword ? <IoEyeOff size={20} /> : <IoEye size={20} />}
             </span>
