@@ -81,7 +81,7 @@ const router = createBrowserRouter([
         element: <Settings />,
       },
       {
-        path: "/socially-engaged/add",
+        path: "/socially-engaged/add/:id?",
         element: <AddSociallyEngaged />,
       },
       {

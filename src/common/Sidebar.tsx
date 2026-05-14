@@ -342,25 +342,7 @@ export default function Sidebar() {
         </div>
       </div>
 
-      <div className="px-[6px] py-2 pb-3">
-        <NavLink
-          className={({ isActive }) =>
-            [
-              "w-full border border-white/10 cursor-pointer flex items-center justify-between px-[14px] py-3 rounded-[14px] text-white bg-white/5 hover:bg-white/10 transition",
-              isActive ? "bg-white/10 border-white/20" : "",
-            ].join(" ")
-          }
-          to="/messages"
-        >
-          <span className="flex items-center gap-3">
-            <span className="w-[34px] h-[34px] rounded-xl grid place-items-center bg-white/10" aria-hidden="true">
-              <IconMail />
-            </span>
-            <span className="text-[16px] font-semibold">Inquiries</span>
-          </span>
-          <IconChevronRight />
-        </NavLink>
-      </div>
+
 
       <div className="px-[6px] py-2 pb-3">
         <button
@@ -442,6 +424,25 @@ export default function Sidebar() {
             View Social Links
           </NavLink>
         </div>
+      </div>
+      <div className="px-[6px] py-2 pb-3">
+        <NavLink
+          className={({ isActive }) =>
+            [
+              "w-full border border-white/10 cursor-pointer flex items-center justify-between px-[14px] py-3 rounded-[14px] text-white bg-white/5 hover:bg-white/10 transition",
+              isActive ? "bg-white/10 border-white/20" : "",
+            ].join(" ")
+          }
+          to="/messages"
+        >
+          <span className="flex items-center gap-3">
+            <span className="w-[34px] h-[34px] rounded-xl grid place-items-center bg-white/10" aria-hidden="true">
+              <IconMail />
+            </span>
+            <span className="text-[16px] font-semibold">Inquiries</span>
+          </span>
+          <IconChevronRight />
+        </NavLink>
       </div>
 
       <div className="px-[6px] py-2 pb-3">
