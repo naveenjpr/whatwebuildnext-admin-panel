@@ -42,7 +42,7 @@ function IconRocket() {
         stroke="currentColor"
         strokeWidth="1.4"
         strokeLinejoin="round"
-        />
+      />
       <path
         d="M8.1 10.3l-3.6 1.2c-.6.2-1 .7-1.1 1.3L3 16.9l4.1-.4c.6-.1 1.1-.5 1.3-1.1l1.2-3.6"
         stroke="currentColor"
@@ -180,9 +180,10 @@ export default function Sidebar() {
 
   return (
     <nav
-      className="h-full overflow-y-auto box-border px-[14px] py-[18px] text-white/85 [background:radial-gradient(1200px_700px_at_-220px_-200px,rgba(99,102,241,0.35),transparent_55%),radial-gradient(900px_650px_at_30px_120px,rgba(168,85,247,0.28),transparent_60%),linear-gradient(180deg,#0b1730_0%,#091225_60%,#08101f_100%)]"
+      className=" h-full overflow-y-auto box-border px-[14px] py-[18px] text-white/85 [background:radial-gradient(1200px_700px_at_-220px_-200px,rgba(99,102,241,0.35),transparent_55%),radial-gradient(900px_650px_at_30px_120px,rgba(168,85,247,0.28),transparent_60%),linear-gradient(180deg,#0b1730_0%,#091225_60%,#08101f_100%)]"
       aria-label="Admin sidebar"
     >
+
       <div className="px-[6px] pb-4 pt-[6px] border-b border-white/10 mb-[14px]">
         <div className="flex items-center gap-[10px] font-bold tracking-[0.2px]">
           <span

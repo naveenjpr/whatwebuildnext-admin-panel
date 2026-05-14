@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react"
+import { IoClose, IoReorderThree } from "react-icons/io5"
 import { Link, useNavigate } from "react-router-dom"
 
-export default function Header() {
+export default function Header({ onToggleSidebar, isSidebarOpen }: { onToggleSidebar: () => void, isSidebarOpen: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement | null>(null)
   const navigate = useNavigate()
@@ -35,17 +36,25 @@ export default function Header() {
     <div className="h-14 px-5 flex items-center justify-between">
       <div className="flex items-center gap-3 min-w-0">
         <div className="h-9 w-9 rounded-xl grid place-items-center bg-white/10 border border-white/10">
-          <span className="text-lg" aria-hidden="true">
+          <span className="" aria-hidden="true">
             {"</>"}
           </span>
+
         </div>
         <div className="min-w-0">
           <div className="text-white font-semibold leading-5 truncate">WhatWeBuildNext</div>
           <div className="text-xs text-white/55 truncate">Engineering Excellence • Admin</div>
         </div>
+        <span
+          onClick={onToggleSidebar}
+          className="text-white/50 font-bold text-lg cursor-pointer hover:text-white transition p-1 rounded-md hover:bg-white/5  block"
+        >
+          {!isSidebarOpen ? <IoClose size={24} /> : <IoReorderThree size={24} />}
+        </span>
       </div>
 
       <div className="flex items-center gap-3 relative" ref={menuRef}>
+
         <div className="hidden md:flex items-center gap-2 px-3 h-9 rounded-xl bg-white/5 border border-white/10">
           <span className="text-white/60 text-sm">Search</span>
           <span className="text-white/30 text-xs font-mono">Ctrl K</span>
