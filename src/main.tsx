@@ -19,6 +19,8 @@ import Addcategories from "./Pages/Categories/Addcategories";
 import Viewcategories from "./Pages/Categories/Viewcategories";
 import Profile from "./Pages/Yourprofile/profile";
 import Settings from "./Pages/Settings/Settings";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 declare module "./Pages/login/Login";
 import Login from "./Pages/login/Login";
@@ -33,7 +35,7 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/portfolio/add",
+        path: "/portfolio/add/:id?",
         element: <AddPortfolio />,
       },
       {
@@ -44,28 +46,22 @@ const router = createBrowserRouter([
         path: "/resume",
         element: <SimplePage title="Resume" />,
       },
-      {
-        path: "/category",
-        element: <Viewcategories />,
-      },
+
       {
         path: "/categories/view",
         element: <Viewcategories />,
       },
       {
-        path: "/categories/add",
+        path: "/categories/add/:id?",
         element: <Addcategories />,
       },
-      {
-        path: "/skills",
-        element: <Viewskills />,
-      },
+
       {
         path: "/skills/view",
         element: <Viewskills />,
       },
       {
-        path: "/skills/add",
+        path: "/skills/add/:id?",
         element: <Addskills />,
       },
       {
@@ -96,28 +92,22 @@ const router = createBrowserRouter([
         path: "/social",
         element: <ViewSociallyEngaged />,
       },
-      {
-        path: "/testimonials",
-        element: <ViewFeedback />,
-      },
+
       {
         path: "/testimonials/view",
         element: <ViewFeedback />,
       },
       {
-        path: "/testimonials/add",
+        path: "/testimonials/add/:id?",
         element: <AddFeedback />,
       },
-      {
-        path: "/team",
-        element: <ViewMeettheExperts />,
-      },
+
       {
         path: "/team/view",
         element: <ViewMeettheExperts />,
       },
       {
-        path: "/team/add",
+        path: "/team/add/:id?",
         element: <AddMeettheExperts />,
       },
       {
@@ -132,6 +122,11 @@ const router = createBrowserRouter([
   },
 ]);
 
+
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <RouterProvider router={router} />,
+  <>
+    <RouterProvider router={router} />
+    <ToastContainer />
+  </>
 );

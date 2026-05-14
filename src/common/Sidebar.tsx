@@ -42,7 +42,7 @@ function IconRocket() {
         stroke="currentColor"
         strokeWidth="1.4"
         strokeLinejoin="round"
-      />
+        />
       <path
         d="M8.1 10.3l-3.6 1.2c-.6.2-1 .7-1.1 1.3L3 16.9l4.1-.4c.6-.1 1.1-.5 1.3-1.1l1.2-3.6"
         stroke="currentColor"
@@ -304,47 +304,6 @@ export default function Sidebar() {
         <button
           className="w-full border border-white/10 cursor-pointer flex items-center justify-between px-[14px] py-3 rounded-[14px] text-white bg-white/5 hover:bg-white/10 transition"
           type="button"
-          onClick={() => toggleSection("social")}
-        >
-          <span className="flex items-center gap-3">
-            <span className="w-[34px] h-[34px] rounded-xl grid place-items-center bg-white/10" aria-hidden="true">
-              <IconShare />
-            </span>
-            <span className="text-[16px] font-semibold">Socially Engaged</span>
-          </span>
-          <IconChevronDown open={openSection === "social"} />
-        </button>
-
-        <div className={`pt-[10px] px-2 ${openSection === "social" ? "block" : "hidden"}`}>
-          <NavLink
-            className={({ isActive }) =>
-              [
-                "block w-full text-left text-white/55 px-[10px] py-[10px] rounded-[10px] text-[14px] hover:bg-white/5 hover:text-white/75",
-                isActive ? "bg-white/5 text-white/85" : "",
-              ].join(" ")
-            }
-            to="/socially-engaged/add"
-          >
-            Add Social Links
-          </NavLink>
-          <NavLink
-            className={({ isActive }) =>
-              [
-                "block w-full text-left text-white/55 px-[10px] py-[10px] rounded-[10px] text-[14px] hover:bg-white/5 hover:text-white/75",
-                isActive ? "bg-white/5 text-white/85" : "",
-              ].join(" ")
-            }
-            to="/socially-engaged/view"
-          >
-            View Social Links
-          </NavLink>
-        </div>
-      </div>
-
-      <div className="px-[6px] py-2 pb-3">
-        <button
-          className="w-full border border-white/10 cursor-pointer flex items-center justify-between px-[14px] py-3 rounded-[14px] text-white bg-white/5 hover:bg-white/10 transition"
-          type="button"
           onClick={() => toggleSection("skills")}
         >
           <span className="flex items-center gap-3">
@@ -404,15 +363,15 @@ export default function Sidebar() {
 
       <div className="px-[6px] py-2 pb-3">
         <button
-          className="w-full border-0 cursor-pointer flex items-center justify-between px-[14px] py-3 rounded-[14px] text-white bg-linear-to-r from-indigo-600 via-violet-600 to-fuchsia-500 shadow-[0_18px_40px_rgba(124,58,237,0.25)]"
+          className="w-full border border-white/10 cursor-pointer flex items-center justify-between px-[14px] py-3 rounded-[14px] text-white bg-white/5 hover:bg-white/10 transition"
           type="button"
           onClick={() => toggleSection("projects")}
         >
           <span className="flex items-center gap-3">
-            <span className="w-[34px] h-[34px] rounded-xl grid place-items-center bg-white/15" aria-hidden="true">
+            <span className="w-[34px] h-[34px] rounded-xl grid place-items-center bg-white/10" aria-hidden="true">
               <IconBriefcase />
             </span>
-            <span className="text-[16px] font-semibold">Case Studies</span>
+            <span className="text-[16px] font-semibold">Projects</span>
           </span>
           <IconChevronDown open={openSection === "projects"} />
         </button>
