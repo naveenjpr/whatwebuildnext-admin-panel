@@ -8,9 +8,9 @@ export default function AddFeedback() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [dataLoading, setDataLoading] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [formData, setFormData] = useState({
     name: "",
-    role: "",
     company: "",
     avatar: "",
     content: "",
@@ -22,7 +22,7 @@ export default function AddFeedback() {
       if (!id) return;
       setDataLoading(true);
       const { data, error } = await supabase
-        .from("testimonials")
+        .from("feedback")
         .select("*")
         .eq("id", id)
         .single();
@@ -33,7 +33,6 @@ export default function AddFeedback() {
       } else if (data) {
         setFormData({
           name: data.name,
-          role: data.role,
           company: data.company,
           avatar: data.avatar,
           content: data.content,
@@ -45,44 +44,64 @@ export default function AddFeedback() {
     fetchTestimonial();
   }, [id]);
 
+  const uploadImage = async (file: File) => {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Math.random()}.${fileExt}`;
+    const filePath = `feedback/${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from('portfolio-images')
+      .upload(filePath, file);
+
+    if (uploadError) throw uploadError;
+
+    const { data: { publicUrl } } = supabase.storage
+      .from('portfolio-images')
+      .getPublicUrl(filePath);
+
+    return publicUrl;
+  };
+
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
 
-    const obj = {
-      name: formData.name,
-      role: formData.role,
-      company: formData.company,
-      avatar: formData.avatar,
-      content: formData.content,
-      status: formData.status === "true",
-    }
+    try {
+      let finalAvatarUrl = formData.avatar;
+      if (imageFile) {
+        finalAvatarUrl = await uploadImage(imageFile);
+      }
 
-    if (id) {
-      const { error } = await supabase
-        .from("testimonials")
-        .update(obj)
-        .eq("id", id);
-      
-      if (error) {
-        toast.error(error.message);
-      } else {
+      const obj = {
+        name: formData.name,
+        company: formData.company,
+        avatar: finalAvatarUrl,
+        content: formData.content,
+        status: formData.status === "true",
+      }
+
+      if (id) {
+        const { error } = await supabase
+          .from("feedback")
+          .update(obj)
+          .eq("id", id);
+        
+        if (error) throw error;
         toast.success("Feedback updated successfully");
-        navigate("/testimonials/view");
-      }
-    } else {
-      const { error } = await supabase
-        .from("testimonials")
-        .insert(obj);
-      
-      if (error) {
-        toast.error(error.message);
       } else {
+        const { error } = await supabase
+          .from("feedback")
+          .insert(obj);
+        
+        if (error) throw error;
         toast.success("Feedback added successfully");
-        navigate("/testimonials/view");
       }
+      navigate("/testimonials/view");
+    } catch (error: any) {
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   return (
@@ -123,46 +142,47 @@ export default function AddFeedback() {
                     <input
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="James Wilson"
+                      placeholder="Rahul Sharma"
                       className="w-full h-11 px-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-white/25"
                       required
                     />
                   </label>
                   <label className="block space-y-2">
-                    <div className="text-sm text-white/70">Role</div>
-                    <input
-                      value={formData.role}
-                      onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                      placeholder="CTO"
-                      className="w-full h-11 px-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-white/25"
-                      required
-                    />
-                  </label>
-                  <label className="block space-y-2 md:col-span-2">
                     <div className="text-sm text-white/70">Company</div>
                     <input
                       value={formData.company}
                       onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                      placeholder="FinTech Hub"
+                      placeholder="TechNova Solutions"
                       className="w-full h-11 px-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-white/25"
                       required
                     />
                   </label>
+                  
                   <label className="block space-y-2 md:col-span-2">
-                    <div className="text-sm text-white/70">Avatar URL</div>
-                    <input
-                      value={formData.avatar}
-                      onChange={(e) => setFormData({ ...formData, avatar: e.target.value })}
-                      placeholder="/images/default_avatar.png"
-                      className="w-full h-11 px-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-white/25"
-                    />
+                    <div className="text-sm text-white/70">Author Avatar</div>
+                    <div className="flex gap-4 items-center">
+                      {(imageFile || formData.avatar) && (
+                        <img
+                          src={imageFile ? URL.createObjectURL(imageFile) : formData.avatar}
+                          alt="Preview"
+                          className="w-16 h-16 rounded-full object-cover border border-white/10"
+                        />
+                      )}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+                        className="block w-full text-sm text-white/50 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-white/5 file:text-white hover:file:bg-white/10 cursor-pointer"
+                      />
+                    </div>
                   </label>
+
                   <label className="block space-y-2 md:col-span-2">
                     <div className="text-sm text-white/70">Content</div>
                     <textarea
                       value={formData.content}
                       onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                      placeholder="What we build next transformed our legacy platform..."
+                      placeholder="Amazing experience working with the team..."
                       rows={5}
                       className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/30 outline-none focus:border-white/25 resize-none"
                       required
@@ -215,15 +235,15 @@ export default function AddFeedback() {
 
                 <div className="mt-auto flex items-center gap-4">
                   <img
-                    src={formData.avatar || "/images/default_avatar.png"}
+                    src={imageFile ? URL.createObjectURL(imageFile) : formData.avatar || "/images/default_avatar.png"}
                     alt="Preview avatar"
                     className="w-12 h-12 rounded-full border-2 border-blue-500/30 object-cover bg-white/5"
                     onError={(e) => { (e.currentTarget as HTMLImageElement).src = "/images/default_avatar.png" }}
                   />
                   <div className="min-w-0">
-                    <h4 className="text-white font-bold text-sm truncate">{formData.name || "Customer Name"}</h4>
+                    <h4 className="text-white font-bold text-sm truncate">{formData.name || "Rahul Sharma"}</h4>
                     <p className="text-slate-500 text-xs uppercase tracking-wider truncate">
-                      {formData.role || "Role"}, {formData.company || "Company Name"}
+                      {formData.company || "TechNova Solutions"}
                     </p>
                   </div>
                 </div>

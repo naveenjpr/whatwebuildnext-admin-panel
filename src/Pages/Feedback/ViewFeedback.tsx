@@ -6,7 +6,6 @@ import { Link } from "react-router";
 type Testimonial = {
   id: number
   name: string
-  role: string
   company: string
   content: string
   avatar: string
@@ -20,12 +19,12 @@ export default function ViewFeedback() {
   const fetchTestimonials = async () => {
     setLoading(true)
     const { data, error } = await supabase
-      .from('testimonials')
+      .from('feedback')
       .select('*')
       .order('id', { ascending: true });
 
     if (error) {
-      toast.error("Failed to fetch testimonials");
+      toast.error("Failed to fetch feedback");
     } else {
       setTestimonials(data || []);
     }
@@ -40,7 +39,7 @@ export default function ViewFeedback() {
 
   const toggleStatus = async (id: number, currentStatus: boolean) => {
     const { error } = await supabase
-      .from("testimonials")
+      .from("feedback")
       .update({ status: !currentStatus })
       .eq("id", id);
 
@@ -53,17 +52,17 @@ export default function ViewFeedback() {
   }
 
   const deleteTestimonial = async (id: number) => {
-    if (!confirm("Are you sure you want to delete this testimonial?")) return;
+    if (!confirm("Are you sure you want to delete this feedback?")) return;
 
     const { error } = await supabase
-      .from("testimonials")
+      .from("feedback")
       .delete()
       .eq("id", id);
 
     if (error) {
       toast.error(error.message);
     } else {
-      toast.success("Testimonial deleted");
+      toast.success("Feedback deleted");
       fetchTestimonials();
     }
   }
@@ -133,26 +132,7 @@ export default function ViewFeedback() {
               </p>
 
               <div className="mt-auto">
-                <div className="flex items-center justify-between gap-3 mb-4">
-                  <span
-                    className={[
-                      "inline-flex items-center h-7 px-3 rounded-full text-xs border font-mono",
-                      t.status
-                        ? "bg-emerald-500/10 text-emerald-200 border-emerald-500/20"
-                        : "bg-rose-500/10 text-rose-200 border-rose-500/20",
-                    ].join(" ")}
-                  >
-                    {t.status ? "status: true" : "status: false"}
-                  </span>
 
-                  <button
-                    type="button"
-                    onClick={() => toggleStatus(t.id, t.status)}
-                    className="h-8 px-3 rounded-xl bg-white/5 border border-white/10 text-white/75 hover:text-white hover:bg-white/10 transition text-xs cursor-pointer"
-                  >
-                    Toggle
-                  </button>
-                </div>
 
                 <div className="flex items-center gap-4">
                   <img
@@ -164,7 +144,7 @@ export default function ViewFeedback() {
                   <div className="min-w-0">
                     <h4 className="text-white font-bold text-sm truncate">{t.name}</h4>
                     <p className="text-slate-500 text-xs uppercase tracking-wider truncate">
-                      {t.role}, {t.company}
+                      {t.company}
                     </p>
                   </div>
                 </div>
@@ -182,6 +162,27 @@ export default function ViewFeedback() {
                     className="h-9 px-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-200 hover:bg-rose-500/15 transition text-sm cursor-pointer"
                   >
                     Delete
+                  </button>
+                </div>
+
+                <div className="flex items-center justify-between gap-3 my-4">
+                  <span
+                    className={[
+                      "inline-flex items-center h-7 px-3 rounded-full text-xs border font-mono",
+                      t.status
+                        ? "bg-emerald-500/10 text-emerald-200 border-emerald-500/20"
+                        : "bg-rose-500/10 text-rose-200 border-rose-500/20",
+                    ].join(" ")}
+                  >
+                    {t.status ? "status: true" : "status: false"}
+                  </span>
+
+                  <button
+                    type="button"
+                    onClick={() => toggleStatus(t.id, t.status)}
+                    className="h-8 px-3 rounded-xl bg-white/5 border border-white/10 text-white/75 hover:text-white hover:bg-white/10 transition text-xs cursor-pointer"
+                  >
+                    Toggle
                   </button>
                 </div>
               </div>

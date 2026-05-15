@@ -426,14 +426,10 @@ export default function Sidebar() {
         </div>
       </div>
       <div className="px-[6px] py-2 pb-3">
-        <NavLink
-          className={({ isActive }) =>
-            [
-              "w-full border border-white/10 cursor-pointer flex items-center justify-between px-[14px] py-3 rounded-[14px] text-white bg-white/5 hover:bg-white/10 transition",
-              isActive ? "bg-white/10 border-white/20" : "",
-            ].join(" ")
-          }
-          to="/messages"
+        <button
+          className="w-full border border-white/10 cursor-pointer flex items-center justify-between px-[14px] py-3 rounded-[14px] text-white bg-white/5 hover:bg-white/10 transition"
+          type="button"
+          onClick={() => toggleSection("inquiries")}
         >
           <span className="flex items-center gap-3">
             <span className="w-[34px] h-[34px] rounded-xl grid place-items-center bg-white/10" aria-hidden="true">
@@ -441,8 +437,22 @@ export default function Sidebar() {
             </span>
             <span className="text-[16px] font-semibold">Inquiries</span>
           </span>
-          <IconChevronRight />
-        </NavLink>
+          <IconChevronDown open={openSection === "inquiries"} />
+        </button>
+
+        <div className={`pt-[10px] px-2 ${openSection === "inquiries" ? "block" : "hidden"}`}>
+          <NavLink
+            className={({ isActive }) =>
+              [
+                "block w-full text-left text-white/55 px-[10px] py-[10px] rounded-[10px] text-[14px] hover:bg-white/5 hover:text-white/75",
+                isActive ? "bg-white/5 text-white/85" : "",
+              ].join(" ")
+            }
+            to="/messages"
+          >
+            View Inquiries
+          </NavLink>
+        </div>
       </div>
 
       <div className="px-[6px] py-2 pb-3">

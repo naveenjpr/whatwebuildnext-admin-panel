@@ -19,6 +19,7 @@ import Addcategories from "./Pages/Categories/Addcategories";
 import Viewcategories from "./Pages/Categories/Viewcategories";
 import Profile from "./Pages/Yourprofile/profile";
 import Settings from "./Pages/Settings/Settings";
+import ViewInquiries from "./Pages/Inquiries/viewInquiries";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -71,7 +72,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/messages",
-        element: <SimplePage title="Client Messages" />,
+        element: <ViewInquiries />,
       },
       {
         path: "/profile",
