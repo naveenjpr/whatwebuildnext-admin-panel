@@ -333,17 +333,3 @@ export default function Settings() {
     </div>
   )
 }
-
-function SettingRow({ title, desc, buttonText }: { title: string; desc: string, buttonText: string }) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-white/3 p-5 backdrop-blur shadow-[0_10px_40px_rgba(0,0,0,0.25)] flex items-center justify-between gap-4 group hover:border-white/20 transition-all">
-      <div>
-        <div className="text-white font-medium group-hover:text-blue-400 transition-colors">{title}</div>
-        <div className="text-white/55 text-sm mt-1">{desc}</div>
-      </div>
-      <button className="h-9 px-5 rounded-lg bg-white/10 border border-white/15 text-white text-sm font-semibold hover:bg-white/20 transition active:scale-95">
-        {buttonText}
-      </button>
-    </div>
-  )
-}
