@@ -24,6 +24,10 @@ type Project = {
 export default function ViewPortfolio() {
   const [rows, setRows] = useState<Project[]>([])
   const [loading, setLoading] = useState(true)
+  const [experts, setExperts] = useState<{ id: number; name: string }[]>([]);
+  const [selectedExpert, setSelectedExpert] = useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<string>("");
+  const [featuredFilter, setFeaturedFilter] = useState<string>("");
 
   const fetchProjects = async () => {
     setLoading(true)
@@ -46,9 +50,22 @@ export default function ViewPortfolio() {
     setLoading(false)
   }
 
+  const fetchExperts = async () => {
+    const { data } = await supabase.from("team").select("id, name");
+    setExperts(data || []);
+  };
+
   useEffect(() => {
     fetchProjects()
+    fetchExperts()
   }, [])
+
+  const filteredRows = rows.filter((p) => {
+    const matchExpert = selectedExpert === "" || p.team?.name === selectedExpert;
+    const matchStatus = statusFilter === "" || p.status === (statusFilter === "inactive" ? "deactive" : statusFilter);
+    const matchFeatured = featuredFilter === "" || p.is_featured === (featuredFilter === "featured");
+    return matchExpert && matchStatus && matchFeatured;
+  });
 
   async function toggleStatus(id: number, currentStatus: string) {
     const newStatus = currentStatus === "active" ? "deactive" : "active"
@@ -123,21 +140,68 @@ export default function ViewPortfolio() {
         </Link>
       </div>
 
+      {/* Filters Bar */}
+      <div className="flex flex-wrap items-center gap-4 p-4 rounded-2xl border border-white/10 bg-white/3 backdrop-blur shadow-xl">
+        <div className="flex items-center gap-3">
+          <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest ml-1">Filter by Expert:</span>
+          <select 
+            value={selectedExpert}
+            onChange={(e) => setSelectedExpert(e.target.value)}
+            className="h-10 px-4 rounded-xl bg-white/5 border border-white/10 text-white text-sm outline-none focus:border-indigo-500/50 transition cursor-pointer"
+          >
+            <option value="" className="bg-slate-900">All Experts</option>
+            {experts.map(expert => (
+              <option key={expert.id} value={expert.name} className="bg-slate-900">{expert.name}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest ml-1">Status:</span>
+          <select 
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="h-10 px-4 rounded-xl bg-white/5 border border-white/10 text-white text-sm outline-none focus:border-indigo-500/50 transition cursor-pointer"
+          >
+            <option value="" className="bg-slate-900">All Status</option>
+            <option value="active" className="bg-slate-900">Active</option>
+            <option value="inactive" className="bg-slate-900">Inactive</option>
+          </select>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest ml-1">Featured:</span>
+          <select 
+            value={featuredFilter}
+            onChange={(e) => setFeaturedFilter(e.target.value)}
+            className="h-10 px-4 rounded-xl bg-white/5 border border-white/10 text-white text-sm outline-none focus:border-indigo-500/50 transition cursor-pointer"
+          >
+            <option value="" className="bg-slate-900">All Projects</option>
+            <option value="featured" className="bg-slate-900">Featured Only</option>
+            <option value="regular" className="bg-slate-900">Non-Featured</option>
+          </select>
+        </div>
+
+        <div className="ml-auto text-xs text-white/40">
+          Showing {filteredRows.length} projects
+        </div>
+      </div>
+
       {loading ? (
         <div className="flex flex-col items-center justify-center py-32 space-y-4">
           <div className="w-12 h-12 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin"></div>
           <div className="text-white/40 text-sm font-medium animate-pulse">Loading projects...</div>
         </div>
-      ) : rows.length === 0 ? (
+      ) : filteredRows.length === 0 ? (
         <div className="text-center py-32 border border-dashed border-white/10 rounded-[32px] bg-white/2">
           <div className="text-white/50 text-lg font-medium">No projects found</div>
           <p className="text-white/30 text-sm mt-2 font-light">
-            Your portfolio is empty. Click "Add New Project" to get started.
+            Try adjusting your filters or click "Add New Project" to get started.
           </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
-          {rows.map((p) => (
+          {filteredRows.map((p) => (
             <article
               key={p.id}
               className="rounded-2xl border border-white/10 bg-white/3 backdrop-blur shadow-[0_10px_40px_rgba(0,0,0,0.25)] overflow-hidden flex flex-col"
@@ -222,6 +286,7 @@ export default function ViewPortfolio() {
 
                   <div className="flex flex-wrap justify-between items-center gap-3">
                     <div className="flex items-center gap-2">
+                      <span>status</span>
                       <span
                         className={[
                           "inline-flex items-center h-8 px-3 rounded-lg text-xs border font-mono",
@@ -244,6 +309,7 @@ export default function ViewPortfolio() {
                     <div className="w-px h-4 bg-white/10 mx-1 hidden sm:block" />
 
                     <div className="flex items-center gap-2">
+                      <span>Featured </span>
                       <span
                         className={[
                           "inline-flex items-center h-8 px-3 rounded-lg text-xs border font-mono",
