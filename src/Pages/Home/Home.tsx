@@ -105,7 +105,7 @@ export default function Home() {
               </div>
               <h3 className="text-white font-bold text-xl">Recent Projects</h3>
             </div>
-            <Link to="/portfolio" className="text-blue-500 text-sm font-semibold hover:underline">View All</Link>
+            <Link to="/portfolio/view" className="text-blue-500 text-sm font-semibold hover:underline">View All</Link>
           </div>
 
           <div className="space-y-4">

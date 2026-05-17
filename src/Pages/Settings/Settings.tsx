@@ -11,7 +11,9 @@ export default function Settings() {
   const [formData, setFormData] = useState({
     location: "",
     email: "",
-    phone: ""
+    phone: "",
+    uptime: "",
+    awards: ""
   })
 
   // Security Tab States
@@ -37,7 +39,9 @@ export default function Settings() {
         setFormData({
           location: data.location || "",
           email: data.email || "",
-          phone: data.phone || ""
+          phone: data.phone || "",
+          uptime: data.uptime || "",
+          awards: data.awards || ""
         })
       }
     } catch (error: any) {
@@ -58,6 +62,8 @@ export default function Settings() {
           location: formData.location,
           email: formData.email,
           phone: formData.phone,
+          uptime: formData.uptime,
+          awards: formData.awards,
           updated_at: new Date().toISOString()
         })
 
@@ -209,6 +215,34 @@ export default function Settings() {
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                           className="w-full h-12 pl-11 pr-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/20 focus:border-blue-500/50 focus:bg-white/10 transition outline-none"
                           placeholder="+91 8805388474"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest ml-1">Client Uptime (%)</label>
+                      <div className="relative group">
+                        <FiShield className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-blue-500 transition-colors" />
+                        <input
+                          type="text"
+                          value={formData.uptime}
+                          onChange={(e) => setFormData({ ...formData, uptime: e.target.value })}
+                          className="w-full h-12 pl-11 pr-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/20 focus:border-blue-500/50 focus:bg-white/10 transition outline-none"
+                          placeholder="99.9%"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest ml-1">Awards Count</label>
+                      <div className="relative group">
+                        <FiShield className="absolute left-4 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-blue-500 transition-colors" />
+                        <input
+                          type="text"
+                          value={formData.awards}
+                          onChange={(e) => setFormData({ ...formData, awards: e.target.value })}
+                          className="w-full h-12 pl-11 pr-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder:text-white/20 focus:border-blue-500/50 focus:bg-white/10 transition outline-none"
+                          placeholder="5"
                         />
                       </div>
                     </div>
