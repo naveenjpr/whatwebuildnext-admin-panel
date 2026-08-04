@@ -1,31 +1,32 @@
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Home from "./Pages/Home/Home";
-import NotFoundPage from "./Pages/NotFoundPage/NotFoundPage";
 import RootLayout from "./RootLayout";
 import "./index.css";
-import AddPortfolio from "./Pages/Portfolio/AddPortfolio";
-import ViewPortfolio from "./Pages/Portfolio/ViewPortfolio";
-import SimplePage from "./Pages/SimplePage";
-import AddSociallyEngaged from "./Pages/Socially_Engaged/AddSociallyEngaged";
-import ViewSociallyEngaged from "./Pages/Socially_Engaged/ViewSociallyEngaged";
-import AddFeedback from "./Pages/Feedback/AddFeedback";
-import ViewFeedback from "./Pages/Feedback/ViewFeedback";
-import AddMeettheExperts from "./Pages/Meet the Experts/AddMeettheExperts";
-import ViewMeettheExperts from "./Pages/Meet the Experts/ViewMeettheExperts";
-import Addskills from "./Pages/Skills/Addskills";
-import Viewskills from "./Pages/Skills/Viewskills";
-import Addcategories from "./Pages/Categories/Addcategories";
-import Viewcategories from "./Pages/Categories/Viewcategories";
-import Profile from "./Pages/Yourprofile/profile";
-import Settings from "./Pages/Settings/Settings";
-import ViewInquiries from "./Pages/Inquiries/viewInquiries";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-import Login from "./Pages/login/Login";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
+
+const Home = React.lazy(() => import("./Pages/Home/Home"));
+const NotFoundPage = React.lazy(() => import("./Pages/NotFoundPage/NotFoundPage"));
+const AddPortfolio = React.lazy(() => import("./Pages/Portfolio/AddPortfolio"));
+const ViewPortfolio = React.lazy(() => import("./Pages/Portfolio/ViewPortfolio"));
+const SimplePage = React.lazy(() => import("./Pages/SimplePage"));
+const AddSociallyEngaged = React.lazy(() => import("./Pages/Socially_Engaged/AddSociallyEngaged"));
+const ViewSociallyEngaged = React.lazy(() => import("./Pages/Socially_Engaged/ViewSociallyEngaged"));
+const AddFeedback = React.lazy(() => import("./Pages/Feedback/AddFeedback"));
+const ViewFeedback = React.lazy(() => import("./Pages/Feedback/ViewFeedback"));
+const AddMeettheExperts = React.lazy(() => import("./Pages/Meet the Experts/AddMeettheExperts"));
+const ViewMeettheExperts = React.lazy(() => import("./Pages/Meet the Experts/ViewMeettheExperts"));
+const Addskills = React.lazy(() => import("./Pages/Skills/Addskills"));
+const Viewskills = React.lazy(() => import("./Pages/Skills/Viewskills"));
+const Addcategories = React.lazy(() => import("./Pages/Categories/Addcategories"));
+const Viewcategories = React.lazy(() => import("./Pages/Categories/Viewcategories"));
+const Profile = React.lazy(() => import("./Pages/Yourprofile/profile"));
+const Settings = React.lazy(() => import("./Pages/Settings/Settings"));
+const ViewInquiries = React.lazy(() => import("./Pages/Inquiries/viewInquiries"));
+const Login = React.lazy(() => import("./Pages/login/Login"));
 
 const router = createBrowserRouter([
   {
@@ -129,7 +130,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <Suspense fallback={<div style={{ display: "flex", height: "100vh", alignItems: "center", justifyContent: "center" }}>Loading...</div>}>
+        <RouterProvider router={router} />
+      </Suspense>
     </Provider>
     <ToastContainer />
   </>
