@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: naveensainijpr/whatwebuild_admin_panel:latest
+    container_name: whatwebuild_admin_panel
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app # Hot reload ke liye local files mount
+      - /app/node_modules # node_modules override na ho
+    env_file:
+      - .env # .env se saari values load hongi
+    environment:
+      - NODE_ENV=development
+      - VITE_SUPABASE_URL=https://xzxmmzzgqfyddukqwbjk.supabase.co
+      - VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_2wojTxpi7VurvNi0RFJWzw_FPOurGyY
+
+    restart: unless-stopped
